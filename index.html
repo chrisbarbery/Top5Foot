@@ -362,7 +362,14 @@ async function getJSON(url){
     return await r.json();
   } finally { clearTimeout(t); }
 }
-const norm = s => (s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\b(fc|cf|afc|ac|as|sc|ssc|rc|ud|cd|sd|us|ogc|losc|psg|stade|club|de|the)\b/g,'').replace(/[^a-z]/g,'');
+const norm = s => (s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\b(fc|cf|afc|ac|as|sc|ssc|rc|ud|cd|sd|us|ogc|losc|stade|club|de|the|olympique|real|athletic|atletico|deportivo|borussia|hertha|union|saint|st)\b/g,'').replace(/[^a-z]/g,'');
+/* Deux noms désignent-ils la même équipe ? (égalité OU inclusion, ex. "Paris Saint Germain" ~ "Paris SG") */
+function sameTeam(a,b){
+  const na=norm(a), nb=norm(b);
+  if(!na || !nb) return false;
+  return na===nb || na.includes(nb) || nb.includes(na);
+}
+function shiftDate(d,n){ const x=new Date(d+'T00:00:00Z'); x.setUTCDate(x.getUTCDate()+n); return x.toISOString().slice(0,10); }
 
 function initials(name){
   const w = (name||'').split(/\s+/).filter(Boolean);
@@ -461,7 +468,7 @@ async function loadOdds(lid){
   try{
     const lg = LEAGUES.find(l=>l.id===lid);
     const d = await getJSON(`https://api.the-odds-api.com/v4/sports/${lg.oddsKey}/odds/?apiKey=${ODDS_API_KEY}&regions=eu&markets=h2h&oddsFormat=decimal`);
-    const map = {_ts:Date.now()};
+    const list = [];
     d.forEach(game=>{
       let h=[],dr=[],a=[];
       game.bookmakers.forEach(bk=>{
@@ -473,20 +480,32 @@ async function loadOdds(lid){
         });
       });
       const avg = arr => arr.length? (arr.reduce((s,x)=>s+x,0)/arr.length).toFixed(2) : null;
-      map[norm(game.home_team)+'|'+norm(game.away_team)] = {h:avg(h), d:avg(dr), a:avg(a)};
+      list.push({home:game.home_team, away:game.away_team, h:avg(h), d:avg(dr), a:avg(a)});
     });
-    oddsCache[lid]=map;
-    $('#odds-footer').textContent = 'Cotes : cote moyenne des bookmakers européens — source The Odds API.';
-  }catch(e){}
+    oddsCache[lid]={_ts:Date.now(), list};
+    $('#odds-footer').textContent = `Cotes : ${list.length} match(s) à venir couverts — moyenne des bookmakers européens, source The Odds API.`;
+  }catch(e){
+    console.warn('The Odds API:', e);
+    $('#odds-footer').textContent = 'Cotes : erreur The Odds API (' + e.message + ') — clé invalide, quota dépassé ou réseau.';
+  }
 }
 function oddsFor(ev){
-  const map = oddsCache[curLeague.id]; if(!map) return null;
-  return map[norm(ev.strHomeTeam)+'|'+norm(ev.strAwayTeam)] || null;
+  const c = oddsCache[curLeague.id]; if(!c || !c.list) return null;
+  /* Correspondance floue : les API n'écrivent pas les noms de clubs pareil */
+  return c.list.find(g => sameTeam(g.home, ev.strHomeTeam) && sameTeam(g.away, ev.strAwayTeam))
+      || c.list.find(g => sameTeam(g.home, ev.strHomeTeam) || sameTeam(g.away, ev.strAwayTeam))
+      || null;
 }
 function oddsHTML(ev){
   const o = oddsFor(ev);
-  if(!o) return ODDS_API_KEY ? '' :
-    `<div class="odds"><span class="src"><span class="wlogo">O</span> Cotes : ajoutez une clé gratuite the-odds-api.com (voir pied de page)</span></div>`;
+  if(!o){
+    if(!ODDS_API_KEY)
+      return `<div class="odds"><span class="src"><span class="wlogo">O</span> Cotes : ajoutez une clé gratuite the-odds-api.com (voir pied de page)</span></div>`;
+    /* Clé présente : les bookmakers ne publient des cotes que pour les matchs à venir (~8 jours) */
+    return matchStatus(ev)==='upcoming'
+      ? `<div class="odds"><span class="src"><span class="wlogo">O</span> cotes pas encore publiées pour ce match</span></div>`
+      : '';
+  }
   return `<div class="odds" title="Cote moyenne constatée chez les bookmakers en ligne">
     <span class="chip"><b>1</b>${o.h??'–'}</span><span class="chip"><b>N</b>${o.d??'–'}</span><span class="chip"><b>2</b>${o.a??'–'}</span>
     <span class="src"><span class="wlogo">O</span> cote moyenne — source The Odds API</span></div>`;
@@ -738,13 +757,17 @@ function renderMatches(events){
 async function fbdDetails(ev){
   const code = FBD_CODES[curLeague.id]; if(!code || !FBD_KEY) return null;
   const H = {headers:{'X-Auth-Token':FBD_KEY}};
-  let r = await fetch(`https://api.football-data.org/v4/competitions/${code}/matches?dateFrom=${ev.dateEvent}&dateTo=${ev.dateEvent}`, H);
-  if(!r.ok) return null;
+  /* Fenêtre élargie d'un jour de chaque côté : les fuseaux horaires peuvent décaler la date */
+  const from = shiftDate(ev.dateEvent,-1), to = shiftDate(ev.dateEvent,1);
+  let r = await fetch(`https://api.football-data.org/v4/competitions/${code}/matches?dateFrom=${from}&dateTo=${to}`, H);
+  if(!r.ok) throw new Error('football-data HTTP '+r.status);
   const list = (await r.json()).matches||[];
-  const m = list.find(x=> norm(x.homeTeam.name)===norm(ev.strHomeTeam) || norm(x.awayTeam.name)===norm(ev.strAwayTeam));
+  /* Correspondance floue sur les DEUX équipes, puis sur une seule en secours */
+  const m = list.find(x=> sameTeam(x.homeTeam.name, ev.strHomeTeam) && sameTeam(x.awayTeam.name, ev.strAwayTeam))
+         || list.find(x=> sameTeam(x.homeTeam.name, ev.strHomeTeam) || sameTeam(x.awayTeam.name, ev.strAwayTeam));
   if(!m) return null;
   r = await fetch(`https://api.football-data.org/v4/matches/${m.id}`, H);
-  if(!r.ok) return null;
+  if(!r.ok) throw new Error('football-data HTTP '+r.status);
   const d = await r.json();
   const md = d.match || d;
   const side = t => t && t.id===m.homeTeam.id ? 'home' : 'away';
@@ -766,14 +789,20 @@ async function openDetail(id){
   let goals = [...parseGoalDetails(ev.strHomeGoalDetails,'home'),...parseGoalDetails(ev.strAwayGoalDetails,'away')].sort((a,b)=>(+a.min||0)-(+b.min||0));
   let cards = [...parseCards(ev.strHomeYellowCards,ev.strHomeRedCards,'home'),...parseCards(ev.strAwayYellowCards,ev.strAwayRedCards,'away')].sort((a,b)=>(+a.min||0)-(+b.min||0));
   let detailSrc = 'TheSportsDB';
+  let fbdNote = '';
   if(played && FBD_KEY && (!goals.length || !cards.length)){
     try{
       const fbd = await fbdDetails(ev);
       if(fbd){
         if(!goals.length && fbd.goals.length){ goals = fbd.goals.sort((a,b)=>(+a.min||0)-(+b.min||0)); detailSrc='football-data.org'; }
         if(!cards.length && fbd.cards.length){ cards = fbd.cards.sort((a,b)=>(+a.min||0)-(+b.min||0)); detailSrc='football-data.org'; }
+      }else{
+        fbdNote = 'Match introuvable côté football-data.org (noms d\u2019équipes trop différents).';
       }
-    }catch(e){}
+    }catch(e){
+      console.warn('football-data.org:', e);
+      fbdNote = '2e source football-data.org en erreur : ' + e.message + ' (clé invalide ? quota 10 req/min dépassé ?).';
+    }
   }
   const sideName = s => s==='home'? ev.strHomeTeam : ev.strAwayTeam;
   const goalsHTML = goals.length
@@ -801,7 +830,7 @@ async function openDetail(id){
       ${ev.strResult && (ev.strStatus||'').toUpperCase()==='PEN' ? `<div class="info-line"><span class="lbl">T.A.B.</span>${esc(ev.strResult)}</div>`:''}
       <div class="section-title">⚽ Buteurs</div>${goalsHTML}
       <div class="section-title">🟨🟥 Cartons</div>${cardsHTML}
-      ${played? `<p style="font-size:10.5px;color:var(--muted);margin-top:12px">Source des détails : ${detailSrc}</p>`:''}
+      ${played? `<p style="font-size:10.5px;color:var(--muted);margin-top:12px">Source des détails : ${detailSrc}${fbdNote? ' · '+fbdNote : ''}</p>`:''}
     </div>`;
 }
 $('#overlay').addEventListener('click', e=>{ if(e.target.id==='overlay') $('#overlay').classList.remove('open'); });
