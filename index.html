@@ -460,7 +460,7 @@ async function loadOdds(lid){
   if(oddsCache[lid] && Date.now()-oddsCache[lid]._ts < 5*60*1000) return;
   try{
     const lg = LEAGUES.find(l=>l.id===lid);
-    const d = await getJSON(`https://api.the-odds-api.com/v4/sports/${lg.oddsKey}/odds/?apiKey=${f112b9b072d8b796b36ac8acbc7b1ef6}&regions=eu&markets=h2h&oddsFormat=decimal`);
+    const d = await getJSON(`https://api.the-odds-api.com/v4/sports/${lg.oddsKey}/odds/?apiKey=${ODDS_API_KEY}&regions=eu&markets=h2h&oddsFormat=decimal`);
     const map = {_ts:Date.now()};
     d.forEach(game=>{
       let h=[],dr=[],a=[];
