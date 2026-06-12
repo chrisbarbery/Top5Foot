@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -8,225 +8,247 @@
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  /* Charte Équipe de France */
-  --bleu-nuit:#001B49;      /* bleu profond FFF */
-  --bleu:#002654;           /* bleu drapeau */
-  --bleu-clair:#1C3F7A;
-  --rouge:#CE1126;          /* rouge drapeau */
-  --blanc:#FFFFFF;
-  --ivoire:#F4F6FA;
-  --or:#C9A227;             /* clin d'œil au coq doré */
-  --gris:#8A93A6;
+  /* Charte Équipe de France (thème par défaut) */
+  --accent1:#001B49;          /* bleu nuit FFF */
+  --accent2:#002654;          /* bleu drapeau */
+  --accent3:#CE1126;          /* rouge drapeau */
+  --or:#C9A227;
   --vert-live:#1FA45B;
+  /* Mode clair */
+  --bg:#F4F6FA;
+  --card:#FFFFFF;
+  --text:#001B49;
+  --muted:#8A93A6;
+  --line:#E6EAF2;
+  --hover:#F0F4FB;
+  --shadow:rgba(0,27,73,.08);
   --radius:14px;
   --font-display:'Barlow Condensed',sans-serif;
   --font-body:'Barlow',sans-serif;
 }
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html{scroll-behavior:smooth}
-body{
-  font-family:var(--font-body);
-  background:var(--ivoire);
-  color:var(--bleu-nuit);
-  min-height:100vh;
+html[data-theme="dark"]{
+  --bg:#0B1220;
+  --card:#13203A;
+  --text:#EAF0FA;
+  --muted:#8FA0BC;
+  --line:#23314F;
+  --hover:#1A2A4A;
+  --shadow:rgba(0,0,0,.45);
 }
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:var(--font-body);background:var(--bg);color:var(--text);min-height:100vh;transition:background .25s,color .25s}
 
-/* ---------- Liseré tricolore (signature) ---------- */
 .tricolore{height:6px;display:flex;width:100%}
 .tricolore span{flex:1}
-.tricolore span:nth-child(1){background:var(--bleu)}
-.tricolore span:nth-child(2){background:var(--blanc)}
-.tricolore span:nth-child(3){background:var(--rouge)}
+.tricolore span:nth-child(1){background:var(--accent2)}
+.tricolore span:nth-child(2){background:#fff}
+.tricolore span:nth-child(3){background:var(--accent3)}
 
 /* ---------- En-tête ---------- */
 header{
-  background:linear-gradient(135deg,var(--bleu-nuit) 0%,var(--bleu) 70%,#003A7A 100%);
-  color:var(--blanc);
-  padding:18px 16px 0;
-  position:sticky;top:0;z-index:50;
-  box-shadow:0 4px 18px rgba(0,27,73,.35);
+  background:linear-gradient(135deg,var(--accent1) 0%,var(--accent2) 70%,var(--accent2) 100%);
+  color:#fff;padding:16px 16px 0;position:sticky;top:0;z-index:50;
+  box-shadow:0 4px 18px var(--shadow);
 }
-.head-top{display:flex;align-items:center;justify-content:space-between;max-width:1100px;margin:0 auto;gap:12px}
-.brand{display:flex;align-items:center;gap:12px}
+.head-top{display:flex;align-items:center;justify-content:space-between;max-width:1100px;margin:0 auto;gap:10px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
 .coq{
-  width:42px;height:42px;border-radius:50%;
-  background:radial-gradient(circle at 30% 30%,#103568,var(--bleu-nuit));
+  width:44px;height:44px;border-radius:50%;flex-shrink:0;
+  background:radial-gradient(circle at 30% 30%,rgba(255,255,255,.18),rgba(0,0,0,.25));
   border:2px solid var(--or);
-  display:flex;align-items:center;justify-content:center;
-  font-size:22px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-size:23px;overflow:hidden;
 }
-h1{font-family:var(--font-display);font-weight:800;font-size:clamp(22px,4.5vw,32px);letter-spacing:.5px;text-transform:uppercase;line-height:1}
-h1 small{display:block;font-family:var(--font-body);font-weight:500;font-size:11px;letter-spacing:2.5px;color:#9DB3D9;text-transform:uppercase;margin-top:3px}
-.refresh-zone{display:flex;align-items:center;gap:10px}
-#countdown{font-family:var(--font-display);font-weight:600;font-size:14px;color:#9DB3D9;min-width:46px;text-align:right}
+.coq img{width:34px;height:34px;object-fit:contain}
+h1{font-family:var(--font-display);font-weight:800;font-size:clamp(20px,4.5vw,30px);letter-spacing:.5px;text-transform:uppercase;line-height:1}
+h1 small{display:block;font-family:var(--font-body);font-weight:500;font-size:10.5px;letter-spacing:2.2px;color:rgba(255,255,255,.65);text-transform:uppercase;margin-top:3px}
+.head-actions{display:flex;align-items:center;gap:8px}
+#countdown{font-family:var(--font-display);font-weight:600;font-size:13px;color:rgba(255,255,255,.65);min-width:40px;text-align:right}
+.icon-btn{
+  width:40px;height:40px;border-radius:50%;border:1.5px solid rgba(255,255,255,.35);
+  background:rgba(255,255,255,.1);color:#fff;font-size:18px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;transition:.2s;flex-shrink:0;
+}
+.icon-btn:hover{background:rgba(255,255,255,.22)}
 #btn-refresh{
-  font-family:var(--font-display);font-weight:700;font-size:15px;letter-spacing:1px;text-transform:uppercase;
-  background:var(--rouge);color:var(--blanc);border:none;border-radius:999px;
-  padding:9px 18px;cursor:pointer;display:flex;align-items:center;gap:7px;
-  transition:transform .15s,background .2s;
+  font-family:var(--font-display);font-weight:700;font-size:14px;letter-spacing:1px;text-transform:uppercase;
+  background:var(--accent3);color:#fff;border:none;border-radius:999px;
+  padding:9px 16px;cursor:pointer;display:flex;align-items:center;gap:6px;transition:transform .15s;
 }
-#btn-refresh:hover{background:#E31B30;transform:translateY(-1px)}
-#btn-refresh:active{transform:scale(.97)}
+#btn-refresh:active{transform:scale(.96)}
 #btn-refresh .ico{display:inline-block;transition:transform .6s}
 #btn-refresh.spin .ico{transform:rotate(360deg)}
+#btn-account.logged{border-color:var(--or);background:rgba(201,162,39,.25)}
 
-/* Onglets championnats */
-.leagues{
-  display:flex;gap:6px;max-width:1100px;margin:14px auto 0;
-  overflow-x:auto;scrollbar-width:none;padding-bottom:0;
-}
+.leagues{display:flex;gap:4px;max-width:1100px;margin:12px auto 0;overflow-x:auto;scrollbar-width:none}
 .leagues::-webkit-scrollbar{display:none}
 .league-tab{
   font-family:var(--font-display);font-weight:600;font-size:16px;letter-spacing:.5px;
-  color:#9DB3D9;background:transparent;border:none;cursor:pointer;
-  padding:10px 16px 12px;white-space:nowrap;
-  border-bottom:3px solid transparent;
-  display:flex;align-items:center;gap:8px;
-  transition:color .2s;
+  color:rgba(255,255,255,.6);background:transparent;border:none;cursor:pointer;
+  padding:10px 14px 12px;white-space:nowrap;border-bottom:3px solid transparent;transition:color .2s;
 }
-.league-tab img{width:20px;height:20px;object-fit:contain;filter:grayscale(1) brightness(2);opacity:.6;transition:.2s}
-.league-tab:hover{color:var(--blanc)}
-.league-tab.active{color:var(--blanc);border-bottom-color:var(--rouge)}
-.league-tab.active img{filter:none;opacity:1}
+.league-tab:hover{color:#fff}
+.league-tab.active{color:#fff;border-bottom-color:var(--accent3)}
 
 /* ---------- Sous-navigation ---------- */
-.subnav{
-  max-width:1100px;margin:18px auto 0;padding:0 16px;
-  display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
-}
-.view-switch{display:flex;background:var(--blanc);border-radius:999px;padding:4px;box-shadow:0 2px 8px rgba(0,27,73,.08)}
+.subnav{max-width:1100px;margin:16px auto 0;padding:0 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.view-switch{display:flex;background:var(--card);border-radius:999px;padding:4px;box-shadow:0 2px 8px var(--shadow)}
 .view-switch button{
   font-family:var(--font-display);font-weight:600;font-size:15px;letter-spacing:.8px;text-transform:uppercase;
-  border:none;background:transparent;color:var(--gris);padding:8px 20px;border-radius:999px;cursor:pointer;transition:.2s;
+  border:none;background:transparent;color:var(--muted);padding:8px 18px;border-radius:999px;cursor:pointer;transition:.2s;
 }
-.view-switch button.active{background:var(--bleu);color:var(--blanc)}
-.round-nav{display:flex;align-items:center;gap:10px}
-.round-nav button{
-  width:36px;height:36px;border-radius:50%;border:1.5px solid var(--bleu);background:var(--blanc);
-  color:var(--bleu);font-size:16px;cursor:pointer;transition:.15s;font-weight:700;
+.view-switch button.active{background:var(--accent2);color:#fff}
+.round-nav{display:flex;align-items:center;gap:8px}
+.round-nav .arrow{
+  width:36px;height:36px;border-radius:50%;border:1.5px solid var(--accent2);background:var(--card);
+  color:var(--accent2);font-size:16px;cursor:pointer;transition:.15s;font-weight:700;
 }
-.round-nav button:hover{background:var(--bleu);color:var(--blanc)}
-.round-nav button:disabled{opacity:.3;cursor:default}
-#round-label{font-family:var(--font-display);font-weight:700;font-size:19px;text-transform:uppercase;letter-spacing:1px;min-width:120px;text-align:center}
+html[data-theme="dark"] .round-nav .arrow{border-color:var(--muted);color:var(--text)}
+.round-nav .arrow:hover{background:var(--accent2);color:#fff}
+.round-nav .arrow:disabled{opacity:.3;cursor:default}
+#round-select{
+  font-family:var(--font-display);font-weight:700;font-size:17px;letter-spacing:.5px;text-transform:uppercase;
+  background:var(--card);color:var(--text);border:1.5px solid var(--accent2);border-radius:999px;
+  padding:7px 14px;cursor:pointer;appearance:auto;
+}
+html[data-theme="dark"] #round-select{border-color:var(--muted)}
 
-/* ---------- Contenu ---------- */
-main{max-width:1100px;margin:16px auto 60px;padding:0 16px}
-#status{
-  text-align:center;font-size:13px;color:var(--gris);margin:8px 0 14px;
-  display:flex;align-items:center;justify-content:center;gap:8px;
-}
+main{max-width:1100px;margin:14px auto 60px;padding:0 16px}
+#status{text-align:center;font-size:13px;color:var(--muted);margin:8px 0 14px;display:flex;align-items:center;justify-content:center;gap:8px}
 .dot-live{width:8px;height:8px;border-radius:50%;background:var(--vert-live);animation:pulse 1.4s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 
 .matches{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(330px,1fr))}
 .day-sep{
   grid-column:1/-1;font-family:var(--font-display);font-weight:700;font-size:16px;
-  text-transform:uppercase;letter-spacing:2px;color:var(--bleu);
-  border-bottom:2px solid var(--bleu);padding-bottom:4px;margin-top:8px;
+  text-transform:uppercase;letter-spacing:2px;color:var(--text);
+  border-bottom:2px solid var(--accent2);padding-bottom:4px;margin-top:8px;
 }
-
-/* Carte match */
 .match{
-  background:var(--blanc);border-radius:var(--radius);padding:14px 16px;cursor:pointer;
-  box-shadow:0 2px 10px rgba(0,27,73,.07);
-  border-left:4px solid var(--bleu);
-  transition:transform .15s,box-shadow .15s;position:relative;overflow:hidden;
+  background:var(--card);border-radius:var(--radius);padding:14px 16px;cursor:pointer;
+  box-shadow:0 2px 10px var(--shadow);border-left:4px solid var(--accent2);
+  transition:transform .15s,box-shadow .15s;
 }
-.match:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,27,73,.14)}
+.match:hover{transform:translateY(-2px);box-shadow:0 6px 18px var(--shadow)}
 .match.live{border-left-color:var(--vert-live)}
-.match.finished{border-left-color:var(--rouge)}
-.m-meta{display:flex;justify-content:space-between;font-size:11.5px;color:var(--gris);margin-bottom:10px;font-weight:500;letter-spacing:.3px}
+.match.finished{border-left-color:var(--accent3)}
+.m-meta{display:flex;justify-content:space-between;font-size:11.5px;color:var(--muted);margin-bottom:10px;font-weight:500}
 .m-meta .badge-live{color:var(--vert-live);font-weight:700;display:flex;align-items:center;gap:5px}
-.m-meta .badge-fin{color:var(--rouge);font-weight:700}
+.m-meta .badge-fin{color:var(--accent3);font-weight:700}
 .m-row{display:flex;align-items:center;gap:10px;margin:6px 0}
-.m-row img{width:28px;height:28px;object-fit:contain;flex-shrink:0}
-.m-row .crest-fallback{
-  width:28px;height:28px;border-radius:50%;flex-shrink:0;
-  display:flex;align-items:center;justify-content:center;
-  font-family:var(--font-display);font-weight:800;font-size:12px;color:var(--blanc);
+.m-row img,.crest-fallback{width:28px;height:28px;flex-shrink:0}
+.m-row img{object-fit:contain}
+.crest-fallback{
+  border-radius:50%;display:inline-flex;align-items:center;justify-content:center;
+  font-family:var(--font-display);font-weight:800;font-size:11px;color:#fff;
 }
 .m-row .name{font-weight:600;font-size:15px;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .m-row .score{font-family:var(--font-display);font-weight:800;font-size:22px;min-width:26px;text-align:center}
-.m-row.winner .name,.m-row.winner .score{color:var(--bleu)}
-.m-row.loser .name,.m-row.loser .score{color:var(--gris)}
-.m-venue{font-size:12px;color:var(--gris);margin-top:8px;display:flex;align-items:center;gap:5px}
-.m-extra{font-size:11.5px;font-weight:700;color:var(--rouge);margin-top:4px;letter-spacing:.5px}
+.m-row.loser .name,.m-row.loser .score{color:var(--muted)}
+.m-venue{font-size:12px;color:var(--muted);margin-top:8px}
+.m-extra{font-size:11.5px;font-weight:700;color:var(--accent3);margin-top:4px;letter-spacing:.5px}
+
+/* Cotes */
+.odds{display:flex;gap:6px;margin-top:10px;align-items:center;flex-wrap:wrap}
+.odds .chip{
+  font-family:var(--font-display);font-weight:700;font-size:13px;
+  background:var(--hover);border:1px solid var(--line);border-radius:8px;
+  padding:3px 9px;color:var(--text);
+}
+.odds .chip b{color:var(--accent3);margin-right:3px}
+.odds .src{font-size:10px;color:var(--muted);display:flex;align-items:center;gap:4px;margin-left:auto}
+.odds .wlogo{
+  width:15px;height:15px;border-radius:3px;background:#E2001A;color:#fff;
+  font-family:var(--font-display);font-weight:800;font-size:11px;
+  display:inline-flex;align-items:center;justify-content:center;
+}
+
+/* Pronostics */
+.prono{margin-top:10px;border-top:1px dashed var(--line);padding-top:9px}
+.prono-label{font-size:10.5px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.prono-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.pbtn{
+  font-family:var(--font-display);font-weight:800;font-size:14px;width:34px;height:30px;
+  border-radius:8px;border:1.5px solid var(--line);background:var(--card);color:var(--text);cursor:pointer;transition:.15s;
+}
+.pbtn.sel{background:var(--accent2);border-color:var(--accent2);color:#fff}
+.pscore{width:40px;height:30px;border-radius:8px;border:1.5px solid var(--line);background:var(--card);color:var(--text);text-align:center;font-weight:700;font-size:14px}
+.psave{
+  font-family:var(--font-display);font-weight:700;font-size:13px;letter-spacing:.5px;text-transform:uppercase;
+  background:var(--accent3);color:#fff;border:none;border-radius:8px;padding:6px 12px;cursor:pointer;
+}
+.prono .locked{font-size:12.5px;color:var(--muted)}
+.prono .result-thumbs{font-size:16px}
+.prono .hint{font-size:11.5px;color:var(--muted)}
 
 /* ---------- Classement ---------- */
-table.standings{width:100%;border-collapse:collapse;background:var(--blanc);border-radius:var(--radius);overflow:hidden;box-shadow:0 2px 10px rgba(0,27,73,.07)}
-.standings th{
-  font-family:var(--font-display);font-weight:700;font-size:13px;letter-spacing:1px;text-transform:uppercase;
-  background:var(--bleu-nuit);color:var(--blanc);padding:11px 8px;text-align:center;
-}
+table.standings{width:100%;border-collapse:collapse;background:var(--card);border-radius:var(--radius);overflow:hidden;box-shadow:0 2px 10px var(--shadow)}
+.standings th{font-family:var(--font-display);font-weight:700;font-size:13px;letter-spacing:1px;text-transform:uppercase;background:var(--accent1);color:#fff;padding:11px 8px;text-align:center}
 .standings th:nth-child(2){text-align:left}
-.standings td{padding:10px 8px;text-align:center;font-size:14px;border-bottom:1px solid #E6EAF2}
+.standings td{padding:10px 8px;text-align:center;font-size:14px;border-bottom:1px solid var(--line)}
 .standings td.team{text-align:left;font-weight:600;display:flex;align-items:center;gap:9px}
 .standings td.team img{width:22px;height:22px;object-fit:contain}
-.standings tr:hover td{background:#F0F4FB}
+.standings tr:hover td{background:var(--hover)}
 .standings .pos{font-family:var(--font-display);font-weight:800;font-size:16px}
-.standings .pts{font-family:var(--font-display);font-weight:800;font-size:16px;color:var(--bleu)}
-.standings tr.ucl .pos{color:var(--bleu);border-left:4px solid var(--bleu)}
-.standings tr.releg .pos{color:var(--rouge);border-left:4px solid var(--rouge)}
+.standings .pts{font-family:var(--font-display);font-weight:800;font-size:16px;color:var(--accent3)}
 
-/* ---------- Modale détail match ---------- */
-#overlay{
-  position:fixed;inset:0;background:rgba(0,20,55,.65);backdrop-filter:blur(3px);
-  display:none;align-items:flex-end;justify-content:center;z-index:100;
-}
-#overlay.open{display:flex}
-@media(min-width:640px){#overlay.open{align-items:center}}
-.modal{
-  background:var(--blanc);width:100%;max-width:560px;max-height:88vh;overflow-y:auto;
-  border-radius:20px 20px 0 0;animation:slideUp .25s ease;
-}
+/* ---------- Modales ---------- */
+.overlay{position:fixed;inset:0;background:rgba(0,10,30,.65);backdrop-filter:blur(3px);display:none;align-items:flex-end;justify-content:center;z-index:100}
+.overlay.open{display:flex}
+@media(min-width:640px){.overlay.open{align-items:center}}
+.modal{background:var(--card);color:var(--text);width:100%;max-width:560px;max-height:88vh;overflow-y:auto;border-radius:20px 20px 0 0;animation:slideUp .25s ease}
 @media(min-width:640px){.modal{border-radius:20px}}
 @keyframes slideUp{from{transform:translateY(40px);opacity:0}to{transform:translateY(0);opacity:1}}
-.modal-head{
-  background:linear-gradient(135deg,var(--bleu-nuit),var(--bleu));color:var(--blanc);
-  padding:22px 20px 18px;position:relative;
-}
-.modal-head .close{
-  position:absolute;top:14px;right:14px;width:32px;height:32px;border-radius:50%;
-  border:none;background:rgba(255,255,255,.15);color:var(--blanc);font-size:17px;cursor:pointer;
-}
+.modal-head{background:linear-gradient(135deg,var(--accent1),var(--accent2));color:#fff;padding:22px 20px 18px;position:relative}
+.modal-head .close{position:absolute;top:14px;right:14px;width:32px;height:32px;border-radius:50%;border:none;background:rgba(255,255,255,.15);color:#fff;font-size:17px;cursor:pointer}
 .modal-score{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:6px}
 .modal-team{flex:1;text-align:center}
 .modal-team img{width:54px;height:54px;object-fit:contain}
+.modal-team .crest-fallback{width:54px;height:54px;font-size:18px}
 .modal-team .nm{font-family:var(--font-display);font-weight:700;font-size:17px;margin-top:6px;line-height:1.1}
 .modal-mid{text-align:center}
-.modal-mid .sc{font-family:var(--font-display);font-weight:800;font-size:44px;letter-spacing:2px}
-.modal-mid .st{font-size:12px;color:#9DB3D9;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-top:2px}
+.modal-mid .sc{font-family:var(--font-display);font-weight:800;font-size:42px;letter-spacing:2px}
+.modal-mid .st{font-size:11.5px;color:rgba(255,255,255,.65);font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-top:2px}
 .modal-body{padding:18px 20px 26px}
-.info-line{display:flex;align-items:center;gap:9px;font-size:13.5px;color:var(--bleu-nuit);margin-bottom:7px}
-.info-line .lbl{color:var(--gris);min-width:70px;font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.6px}
-.section-title{
-  font-family:var(--font-display);font-weight:700;font-size:16px;letter-spacing:1.5px;text-transform:uppercase;
-  color:var(--bleu);margin:18px 0 8px;border-bottom:2px solid var(--bleu);padding-bottom:4px;
-  display:flex;align-items:center;gap:7px;
-}
-.event-line{display:flex;align-items:center;gap:9px;padding:6px 0;font-size:14px;border-bottom:1px dashed #E6EAF2}
-.event-line .min{font-family:var(--font-display);font-weight:800;font-size:15px;color:var(--rouge);min-width:38px}
-.event-line .side{font-size:11px;color:var(--gris);margin-left:auto;font-weight:600}
+.info-line{display:flex;align-items:center;gap:9px;font-size:13.5px;margin-bottom:7px}
+.info-line .lbl{color:var(--muted);min-width:70px;font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.6px}
+.section-title{font-family:var(--font-display);font-weight:700;font-size:16px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text);margin:18px 0 8px;border-bottom:2px solid var(--accent2);padding-bottom:4px}
+.event-line{display:flex;align-items:center;gap:9px;padding:6px 0;font-size:14px;border-bottom:1px dashed var(--line)}
+.event-line .min{font-family:var(--font-display);font-weight:800;font-size:15px;color:var(--accent3);min-width:38px}
+.event-line .side{font-size:11px;color:var(--muted);margin-left:auto;font-weight:600}
 .card-ic{display:inline-block;width:11px;height:15px;border-radius:2px;flex-shrink:0}
-.card-ic.j{background:#F2C200}.card-ic.r{background:var(--rouge)}
-.tag-pen{font-size:10.5px;font-weight:700;color:var(--blanc);background:var(--rouge);border-radius:4px;padding:1px 5px;letter-spacing:.5px}
-.no-data{font-size:13px;color:var(--gris);font-style:italic;padding:6px 0}
+.card-ic.j{background:#F2C200}.card-ic.r{background:var(--accent3)}
+.tag-pen{font-size:10.5px;font-weight:700;color:#fff;background:var(--accent3);border-radius:4px;padding:1px 5px;letter-spacing:.5px}
+.no-data{font-size:13px;color:var(--muted);font-style:italic;padding:6px 0}
 
-/* ---------- États ---------- */
-.loader{display:flex;flex-direction:column;align-items:center;gap:14px;padding:70px 0;color:var(--gris)}
-.spinner{width:42px;height:42px;border-radius:50%;border:4px solid #DDE4F0;border-top-color:var(--rouge);animation:rot .8s linear infinite}
+/* Modale compte */
+.acc-body{padding:22px 22px 28px}
+.acc-body h2{font-family:var(--font-display);font-weight:800;font-size:24px;text-transform:uppercase;letter-spacing:1px;margin-bottom:14px}
+.field{margin-bottom:12px}
+.field label{display:block;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);margin-bottom:5px}
+.field input,.field select{
+  width:100%;padding:10px 12px;border-radius:10px;border:1.5px solid var(--line);
+  background:var(--bg);color:var(--text);font-size:15px;font-family:var(--font-body);
+}
+.btn-main{
+  width:100%;font-family:var(--font-display);font-weight:700;font-size:16px;letter-spacing:1px;text-transform:uppercase;
+  background:var(--accent2);color:#fff;border:none;border-radius:10px;padding:12px;cursor:pointer;margin-top:6px;
+}
+.btn-sec{background:none;border:none;color:var(--muted);font-size:13px;cursor:pointer;text-decoration:underline;margin-top:12px;display:block}
+.btn-danger{background:var(--accent3)}
+.acc-msg{font-size:13px;color:var(--accent3);margin-top:8px;min-height:16px}
+.fav-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.fav-row .lg{font-family:var(--font-display);font-weight:700;font-size:15px;min-width:130px}
+.fav-row select{flex:1}
+
+/* États */
+.loader{display:flex;flex-direction:column;align-items:center;gap:14px;padding:70px 0;color:var(--muted)}
+.spinner{width:42px;height:42px;border-radius:50%;border:4px solid var(--line);border-top-color:var(--accent3);animation:rot .8s linear infinite}
 @keyframes rot{to{transform:rotate(360deg)}}
-.error-box{
-  background:var(--blanc);border-radius:var(--radius);padding:28px 22px;text-align:center;
-  border-top:4px solid var(--rouge);box-shadow:0 2px 10px rgba(0,27,73,.07);max-width:520px;margin:30px auto;
-}
+.error-box{background:var(--card);border-radius:var(--radius);padding:28px 22px;text-align:center;border-top:4px solid var(--accent3);box-shadow:0 2px 10px var(--shadow);max-width:520px;margin:30px auto}
 .error-box h3{font-family:var(--font-display);font-size:21px;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
-.error-box p{font-size:14px;color:var(--gris);line-height:1.5}
-.error-box button{
-  margin-top:14px;font-family:var(--font-display);font-weight:700;letter-spacing:1px;text-transform:uppercase;
-  background:var(--bleu);color:var(--blanc);border:none;border-radius:999px;padding:10px 24px;cursor:pointer;
-}
-footer{text-align:center;font-size:11.5px;color:var(--gris);padding:18px 16px 30px}
+.error-box p{font-size:14px;color:var(--muted);line-height:1.5}
+.error-box button{margin-top:14px;font-family:var(--font-display);font-weight:700;letter-spacing:1px;text-transform:uppercase;background:var(--accent2);color:#fff;border:none;border-radius:999px;padding:10px 24px;cursor:pointer}
+footer{text-align:center;font-size:11.5px;color:var(--muted);padding:18px 16px 30px;line-height:1.6}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -237,12 +259,14 @@ footer{text-align:center;font-size:11.5px;color:var(--gris);padding:18px 16px 30
 <header>
   <div class="head-top">
     <div class="brand">
-      <div class="coq">🐓</div>
-      <h1>Le Top 5<small>Les 5 grands championnats d'Europe</small></h1>
+      <div class="coq" id="brand-crest">🐓</div>
+      <h1 id="brand-title">Le Top 5<small id="brand-sub">Les 5 grands championnats d'Europe</small></h1>
     </div>
-    <div class="refresh-zone">
+    <div class="head-actions">
       <span id="countdown">60 s</span>
-      <button id="btn-refresh" aria-label="Actualiser les données"><span class="ico">⟳</span> Actualiser</button>
+      <button id="btn-refresh" aria-label="Actualiser"><span class="ico">⟳</span> Actualiser</button>
+      <button id="btn-theme" class="icon-btn" aria-label="Basculer mode clair / sombre" title="Mode clair / sombre">🌙</button>
+      <button id="btn-account" class="icon-btn" aria-label="Mon compte" title="Mon compte">👤</button>
     </div>
   </div>
   <nav class="leagues" id="league-tabs" aria-label="Championnats"></nav>
@@ -254,9 +278,9 @@ footer{text-align:center;font-size:11.5px;color:var(--gris);padding:18px 16px 30
     <button id="v-cls">Classement</button>
   </div>
   <div class="round-nav" id="round-nav">
-    <button id="r-prev" aria-label="Journée précédente">‹</button>
-    <span id="round-label">Journée —</span>
-    <button id="r-next" aria-label="Journée suivante">›</button>
+    <button id="r-prev" class="arrow" aria-label="Journée précédente">‹</button>
+    <select id="round-select" aria-label="Choisir la journée"></select>
+    <button id="r-next" class="arrow" aria-label="Journée suivante">›</button>
   </div>
 </div>
 
@@ -265,132 +289,372 @@ footer{text-align:center;font-size:11.5px;color:var(--gris);padding:18px 16px 30
   <div id="content"><div class="loader"><div class="spinner"></div><span>Chargement des données…</span></div></div>
 </main>
 
-<div id="overlay" role="dialog" aria-modal="true">
-  <div class="modal" id="modal"></div>
-</div>
+<!-- Modale détail match -->
+<div id="overlay" class="overlay" role="dialog" aria-modal="true"><div class="modal" id="modal"></div></div>
+<!-- Modale compte -->
+<div id="acc-overlay" class="overlay" role="dialog" aria-modal="true"><div class="modal" id="acc-modal"></div></div>
 
 <footer>
-  Données fournies par TheSportsDB (API publique gratuite). Mise à jour automatique toutes les 60 secondes.<br>
-  Niveau de détail (buteurs, cartons, minute) selon la disponibilité de l'API pour chaque match.
+  Données : TheSportsDB (API publique gratuite) · Mise à jour automatique toutes les 60 s.<br>
+  <span id="odds-footer">Cotes : module en attente d'une clé The Odds API (Winamax ne propose pas d'API publique — voir le code, constante ODDS_API_KEY).</span><br>
+  Comptes & pronostics enregistrés localement sur cet appareil (aucune donnée envoyée sur un serveur).
 </footer>
 
 <script>
 /* =====================================================================
-   CONFIGURATION — API TheSportsDB (clé publique gratuite "3")
-   Les API officielles des fédérations (FFF, FA, RFEF, FIGC, DFB) ne sont
-   pas ouvertes au public sans contrat ; TheSportsDB agrège leurs données.
-   Pour brancher une autre source (ex. football-data.org avec votre clé),
-   il suffit d'adapter les fonctions fetch* ci-dessous.
+   CONFIGURATION
+   - Données matchs/classements : TheSportsDB (gratuit, sans clé).
+   - Cotes : Winamax ne fournit AUCUNE API publique. Pour afficher des
+     cotes réelles, créez une clé gratuite sur https://the-odds-api.com
+     et collez-la ci-dessous : l'app affichera la cote MOYENNE des
+     bookmakers européens (dont Winamax quand il est référencé), avec
+     mention de la source sur chaque match.
 ===================================================================== */
 const API = 'https://www.thesportsdb.com/api/v1/json/3';
 const SEASON = '2025-2026';
+const ODDS_API_KEY = '';   // ← votre clé the-odds-api.com (facultatif)
+const REFRESH_EVERY = 60;
+
 const LEAGUES = [
-  {id:'4334', name:'Ligue 1',        country:'🇫🇷', rounds:34},
-  {id:'4328', name:'Premier League', country:'🏴', rounds:38},
-  {id:'4335', name:'La Liga',        country:'🇪🇸', rounds:38},
-  {id:'4332', name:'Serie A',        country:'🇮🇹', rounds:38},
-  {id:'4331', name:'Bundesliga',     country:'🇩🇪', rounds:34},
+  {id:'4334', name:'Ligue 1',        country:'🇫🇷', fallbackRounds:34, oddsKey:'soccer_france_ligue_one'},
+  {id:'4328', name:'Premier League', country:'🏴', fallbackRounds:38, oddsKey:'soccer_epl'},
+  {id:'4335', name:'La Liga',        country:'🇪🇸', fallbackRounds:38, oddsKey:'soccer_spain_la_liga'},
+  {id:'4332', name:'Serie A',        country:'🇮🇹', fallbackRounds:38, oddsKey:'soccer_italy_serie_a'},
+  {id:'4331', name:'Bundesliga',     country:'🇩🇪', fallbackRounds:34, oddsKey:'soccer_germany_bundesliga'},
 ];
-const REFRESH_EVERY = 60; // secondes
+
+/* ---------------- Stockage local (avec repli mémoire) ---------------- */
+const memStore = {};
+const store = {
+  get(k){ try{ return localStorage.getItem(k); }catch(e){ return memStore[k]??null; } },
+  set(k,v){ try{ localStorage.setItem(k,v); }catch(e){ memStore[k]=v; } },
+};
+const loadJSON = (k,def)=>{ try{ return JSON.parse(store.get(k))??def; }catch(e){ return def; } };
+const saveJSON = (k,v)=> store.set(k, JSON.stringify(v));
 
 /* ---------------- État ---------------- */
 let curLeague = LEAGUES[0];
-let curView   = 'cal';          // 'cal' | 'cls'
-let curRound  = null;           // numéro de journée
-let teamCache = {};             // {leagueId: {teamName: {badge,color}}}
+let curView   = 'cal';
+let curRound  = null;
+let teamCache = {};     // {lid:{name:{badge,color,color2}}}
+let teamLists = {};     // {lid:[{name,badge}]} pour les menus favoris
+let roundsCount = {};   // {lid: nombre réel de journées}
+let oddsCache = {};     // {lid:{normalizedKey:{h,d,a}}}
+let curEvents = [];
 let countdown = REFRESH_EVERY;
-let timerId   = null;
+let timerId = null;
+let session = store.get('t5_session') || null;   // pseudo connecté
 
 /* ---------------- Utilitaires ---------------- */
 const $ = s => document.querySelector(s);
 const esc = s => (s||'').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-
-async function getJSON(url){
-  const r = await fetch(url);
-  if(!r.ok) throw new Error('HTTP '+r.status);
-  return r.json();
-}
+async function getJSON(url){ const r = await fetch(url); if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); }
+const norm = s => (s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\b(fc|cf|afc|ac|as|sc|ssc|rc|ud|cd|sd|us|ogc|losc|psg|stade|club|de|the)\b/g,'').replace(/[^a-z]/g,'');
 
 function initials(name){
-  return name.split(/\s+/).filter(w=>w.length>2||/^[A-Z]/.test(w)).slice(0,2).map(w=>w[0]).join('').toUpperCase()||'??';
+  const w = (name||'').split(/\s+/).filter(Boolean);
+  return (w.length>=2 ? w[0][0]+w[1][0] : (name||'?').slice(0,2)).toUpperCase();
 }
 function hashColor(name){
-  let h=0; for(const c of name) h=(h*31+c.charCodeAt(0))>>>0;
-  const palette=['#002654','#CE1126','#1C3F7A','#7A1B2E','#0E5A3C','#5A3A7A','#7A5A0E'];
-  return palette[h%palette.length];
+  let h=0; for(const c of name||'') h=(h*31+c.charCodeAt(0))>>>0;
+  const p=['#002654','#CE1126','#1C3F7A','#7A1B2E','#0E5A3C','#5A3A7A','#7A5A0E'];
+  return p[h%p.length];
 }
-function crest(team, lid){
-  const t = (teamCache[lid]||{})[team];
-  if(t && t.badge) return `<img src="${t.badge}/tiny" alt="" loading="lazy" onerror="this.outerHTML=crestFallbackHTML('${esc(team)}')">`;
-  return crestFallbackHTML(team);
+function teamInfo(team, lid){
+  const map = teamCache[lid]||{};
+  if(map[team]) return map[team];
+  const k = norm(team);
+  for(const [n,info] of Object.entries(map)) if(norm(n)===k) return info;
+  return null;
 }
-function crestFallbackHTML(team){
-  return `<span class="crest-fallback" style="background:${hashColor(team)}">${initials(team)}</span>`;
+function crest(team, lid, size=28, evBadge=''){
+  const info = teamInfo(team, lid);
+  const url = (info && info.badge) || evBadge || '';
+  const fb = `<span class="crest-fallback" style="width:${size}px;height:${size}px;background:${hashColor(team)}">${initials(team)}</span>`;
+  if(!url) return fb;
+  return `<img src="${url}" width="${size}" height="${size}" alt="" loading="lazy" referrerpolicy="no-referrer"
+    onerror="this.outerHTML='${fb.replace(/'/g,"\\'")}'">`;
 }
-window.crestFallbackHTML = crestFallbackHTML;
-
 function fmtDate(ev){
   if(!ev.dateEvent) return '';
-  const d = new Date(ev.dateEvent + 'T' + (ev.strTime||'00:00:00') + 'Z');
+  const d = new Date(ev.dateEvent+'T'+(ev.strTime||'00:00:00')+'Z');
   return d.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});
 }
 function fmtTime(ev){
   if(!ev.strTime) return '';
-  const d = new Date(ev.dateEvent + 'T' + ev.strTime + 'Z');
-  return d.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+  return new Date(ev.dateEvent+'T'+ev.strTime+'Z').toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
 }
+function kickoff(ev){ return new Date(ev.dateEvent+'T'+(ev.strTime||'00:00:00')+'Z'); }
 function matchStatus(ev){
   const s = (ev.strStatus||'').toUpperCase();
-  if(['FT','MATCH FINISHED','AET','PEN','FINISHED'].includes(s) || (ev.intHomeScore!=null && ev.intAwayScore!=null && !['1H','2H','HT','LIVE'].includes(s)))
-    return 'finished';
-  if(['1H','2H','HT','LIVE','ET','IN PLAY'].includes(s)) return 'live';
+  if(['1H','2H','HT','LIVE','ET','IN PLAY','BREAK TIME'].includes(s)) return 'live';
+  if(['FT','MATCH FINISHED','AET','PEN','FINISHED'].includes(s)) return 'finished';
+  if(ev.intHomeScore!=null && ev.intAwayScore!=null) return 'finished';
   return 'upcoming';
 }
 function durationLabel(ev){
   const s = (ev.strStatus||'').toUpperCase();
-  if(s==='AET') return 'A.P. — 120 min (prolongation)';
-  if(s==='PEN') return 'T.A.B. — prolongation + tirs au but';
+  if(s==='AET') return 'A.P. — 120 min';
+  if(s==='PEN') return 'prolongation + T.A.B.';
   return '90 min';
 }
 
-/* ---------------- Chargement équipes (blasons + couleurs) ---------------- */
+/* ---------------- Équipes (blasons, couleurs, nombre de journées) ---------------- */
 async function loadTeams(lid){
   if(teamCache[lid]) return;
   try{
     const data = await getJSON(`${API}/lookup_all_teams.php?id=${lid}`);
-    const map = {};
+    const map = {}, list = [];
     (data.teams||[]).forEach(t=>{
-      map[t.strTeam] = {badge:t.strBadge||t.strTeamBadge||'', color:t.strColour1||hashColor(t.strTeam)};
-      if(t.strTeamAlternate) t.strTeamAlternate.split(',').forEach(a=>{ if(a.trim()) map[a.trim()]=map[t.strTeam]; });
+      const info = {badge:t.strBadge||t.strTeamBadge||'', color:t.strColour1||'', color2:t.strColour2||''};
+      map[t.strTeam] = info;
+      list.push({name:t.strTeam, badge:info.badge});
+      (t.strTeamAlternate||'').split(',').forEach(a=>{ if(a.trim()) map[a.trim()]=info; });
     });
-    teamCache[lid]=map;
-  }catch(e){ teamCache[lid]={}; }
+    teamCache[lid]=map; teamLists[lid]=list.sort((a,b)=>a.name.localeCompare(b.name));
+    /* Nombre de journées calculé d'après le nombre de clubs : (n-1) × 2 */
+    if(list.length>=2) roundsCount[lid] = (list.length-1)*2;
+  }catch(e){ teamCache[lid]={}; teamLists[lid]=[]; }
+}
+function totalRounds(lid){
+  return roundsCount[lid] || LEAGUES.find(l=>l.id===lid).fallbackRounds;
 }
 
 /* ---------------- Journée courante ---------------- */
 async function detectCurrentRound(lid){
   try{
     const d = await getJSON(`${API}/eventsnextleague.php?id=${lid}`);
-    if(d.events && d.events.length && d.events[0].intRound) return parseInt(d.events[0].intRound);
+    if(d.events?.[0]?.intRound) return parseInt(d.events[0].intRound);
   }catch(e){}
   try{
     const d = await getJSON(`${API}/eventspastleague.php?id=${lid}`);
-    if(d.events && d.events.length && d.events[0].intRound) return parseInt(d.events[0].intRound);
+    if(d.events?.[0]?.intRound) return parseInt(d.events[0].intRound);
   }catch(e){}
   return 1;
+}
+function buildRoundSelect(){
+  const n = totalRounds(curLeague.id);
+  let html='';
+  for(let i=1;i<=n;i++) html += `<option value="${i}" ${i===curRound?'selected':''}>Journée ${i}</option>`;
+  $('#round-select').innerHTML = html;
+  $('#r-prev').disabled = curRound<=1;
+  $('#r-next').disabled = curRound>=n;
+}
+
+/* ---------------- Cotes (The Odds API — moyenne bookmakers) ---------------- */
+async function loadOdds(lid){
+  if(!ODDS_API_KEY) return;
+  if(oddsCache[lid] && Date.now()-oddsCache[lid]._ts < 5*60*1000) return;
+  try{
+    const lg = LEAGUES.find(l=>l.id===lid);
+    const d = await getJSON(`https://api.the-odds-api.com/v4/sports/${lg.oddsKey}/odds/?apiKey=${ODDS_API_KEY}&regions=eu&markets=h2h&oddsFormat=decimal`);
+    const map = {_ts:Date.now()};
+    d.forEach(game=>{
+      let h=[],dr=[],a=[];
+      game.bookmakers.forEach(bk=>{
+        const m = bk.markets.find(m=>m.key==='h2h'); if(!m) return;
+        m.outcomes.forEach(o=>{
+          if(o.name===game.home_team) h.push(o.price);
+          else if(o.name===game.away_team) a.push(o.price);
+          else dr.push(o.price);
+        });
+      });
+      const avg = arr => arr.length? (arr.reduce((s,x)=>s+x,0)/arr.length).toFixed(2) : null;
+      map[norm(game.home_team)+'|'+norm(game.away_team)] = {h:avg(h), d:avg(dr), a:avg(a)};
+    });
+    oddsCache[lid]=map;
+    $('#odds-footer').textContent = 'Cotes : moyennes constatées chez les bookmakers européens (source The Odds API).';
+  }catch(e){}
+}
+function oddsFor(ev){
+  const map = oddsCache[curLeague.id]; if(!map) return null;
+  return map[norm(ev.strHomeTeam)+'|'+norm(ev.strAwayTeam)] || null;
+}
+function oddsHTML(ev){
+  const o = oddsFor(ev);
+  if(!o) return ODDS_API_KEY ? '' :
+    `<div class="odds"><span class="src"><span class="wlogo">W</span> Cotes indisponibles — Winamax n'a pas d'API publique (voir pied de page)</span></div>`;
+  return `<div class="odds" title="Cote moyenne constatée chez les bookmakers en ligne">
+    <span class="chip"><b>1</b>${o.h??'–'}</span><span class="chip"><b>N</b>${o.d??'–'}</span><span class="chip"><b>2</b>${o.a??'–'}</span>
+    <span class="src"><span class="wlogo">W</span> moy. bookmakers (dont Winamax)</span></div>`;
+}
+
+/* ---------------- Comptes utilisateurs (stockés sur l'appareil) ---------------- */
+const getUsers = ()=> loadJSON('t5_users', {});
+const saveUsers = u => saveJSON('t5_users', u);
+const me = ()=> session ? getUsers()[session] : null;
+
+function hash(str){ let h=5381; for(const c of str) h=((h<<5)+h+c.charCodeAt(0))>>>0; return h.toString(36); }
+
+function openAccount(){
+  $('#acc-overlay').classList.add('open');
+  session && me() ? renderProfile() : renderLogin();
+}
+function renderLogin(mode='login'){
+  $('#acc-modal').innerHTML = `
+  <div class="modal-head">
+    <button class="close" onclick="document.getElementById('acc-overlay').classList.remove('open')">✕</button>
+    <div style="font-family:var(--font-display);font-weight:800;font-size:24px;text-transform:uppercase">${mode==='login'?'Connexion':'Créer un compte'}</div>
+  </div>
+  <div class="acc-body">
+    <div class="field"><label>Pseudo</label><input id="acc-user" autocomplete="username" maxlength="20"></div>
+    <div class="field"><label>Mot de passe</label><input id="acc-pass" type="password" autocomplete="current-password"></div>
+    <button class="btn-main" id="acc-go">${mode==='login'?'Se connecter':'Créer mon compte'}</button>
+    <div class="acc-msg" id="acc-msg"></div>
+    <button class="btn-sec" id="acc-switch">${mode==='login'?'Pas encore de compte ? En créer un':'Déjà un compte ? Se connecter'}</button>
+    <p style="font-size:11.5px;color:var(--muted);margin-top:14px;line-height:1.5">
+      Le compte est enregistré uniquement sur cet appareil/navigateur (pas de serveur). Le site reste consultable sans compte.</p>
+  </div>`;
+  $('#acc-switch').onclick = ()=> renderLogin(mode==='login'?'register':'login');
+  $('#acc-go').onclick = ()=>{
+    const u = $('#acc-user').value.trim(), p = $('#acc-pass').value;
+    if(!u || !p){ $('#acc-msg').textContent='Pseudo et mot de passe requis.'; return; }
+    const users = getUsers();
+    if(mode==='register'){
+      if(users[u]){ $('#acc-msg').textContent='Ce pseudo existe déjà.'; return; }
+      users[u] = {pw:hash(p), favs:{}, pronos:{}};
+      saveUsers(users);
+    }else{
+      if(!users[u] || users[u].pw!==hash(p)){ $('#acc-msg').textContent='Identifiants incorrects.'; return; }
+    }
+    session = u; store.set('t5_session', u);
+    $('#btn-account').classList.add('logged');
+    renderProfile(); applyFavTheme(); loadView(false);
+  };
+}
+function renderProfile(){
+  const user = me();
+  const favRows = LEAGUES.map(l=>{
+    const opts = (teamLists[l.id]||[]).map(t=>`<option value="${esc(t.name)}" ${user.favs[l.id]===t.name?'selected':''}>${esc(t.name)}</option>`).join('');
+    return `<div class="fav-row"><span class="lg">${l.country} ${l.name}</span>
+      <select data-lid="${l.id}" class="fav-sel"><option value="">— Aucune —</option>${opts}</select></div>`;
+  }).join('');
+  const nb = Object.keys(user.pronos||{}).length;
+  $('#acc-modal').innerHTML = `
+  <div class="modal-head">
+    <button class="close" onclick="document.getElementById('acc-overlay').classList.remove('open')">✕</button>
+    <div style="font-family:var(--font-display);font-weight:800;font-size:24px;text-transform:uppercase">👤 ${esc(session)}</div>
+    <div style="font-size:12px;color:rgba(255,255,255,.65)">${nb} pronostic${nb>1?'s':''} enregistré${nb>1?'s':''}</div>
+  </div>
+  <div class="acc-body">
+    <h2>Équipe favorite par championnat</h2>
+    <p style="font-size:12.5px;color:var(--muted);margin-bottom:12px">La page prend les couleurs de votre équipe et son blason remplace le coq. (Certaines listes se chargent en visitant le championnat.)</p>
+    ${favRows}
+    <button class="btn-main" id="fav-save">Enregistrer mes favoris</button>
+    <div class="acc-msg" id="acc-msg"></div>
+    <button class="btn-main btn-danger" id="acc-logout" style="margin-top:16px">Se déconnecter</button>
+  </div>`;
+  $('#fav-save').onclick = ()=>{
+    const users = getUsers();
+    document.querySelectorAll('.fav-sel').forEach(s=>{
+      if(s.value) users[session].favs[s.dataset.lid] = s.value;
+      else delete users[session].favs[s.dataset.lid];
+    });
+    saveUsers(users);
+    $('#acc-msg').textContent='Favoris enregistrés ✔';
+    applyFavTheme(); loadView(false);
+  };
+  $('#acc-logout').onclick = ()=>{
+    session=null; store.set('t5_session','');
+    $('#btn-account').classList.remove('logged');
+    $('#acc-overlay').classList.remove('open');
+    applyFavTheme(); loadView(false);
+  };
+}
+$('#btn-account').addEventListener('click', openAccount);
+$('#acc-overlay').addEventListener('click', e=>{ if(e.target.id==='acc-overlay') $('#acc-overlay').classList.remove('open'); });
+
+/* ---------------- Thème équipe favorite ---------------- */
+function applyFavTheme(){
+  const root = document.documentElement;
+  const user = me();
+  const fav = user && user.favs[curLeague.id];
+  const info = fav ? teamInfo(fav, curLeague.id) : null;
+  if(fav && info && info.color){
+    root.style.setProperty('--accent1', shade(info.color,-25));
+    root.style.setProperty('--accent2', info.color);
+    root.style.setProperty('--accent3', info.color2 && norm(info.color2)!==norm(info.color) ? info.color2 : '#CE1126');
+    $('#brand-crest').innerHTML = info.badge ? `<img src="${info.badge}" alt="">` : '🐓';
+    $('#brand-sub').textContent = 'Aux couleurs de ' + fav;
+  }else{
+    root.style.setProperty('--accent1','#001B49');
+    root.style.setProperty('--accent2','#002654');
+    root.style.setProperty('--accent3','#CE1126');
+    $('#brand-crest').textContent = '🐓';
+    $('#brand-sub').textContent = "Les 5 grands championnats d'Europe";
+  }
+}
+function shade(hex,pct){
+  const m = (hex||'').match(/^#?([0-9a-f]{6})$/i); if(!m) return hex;
+  const n = parseInt(m[1],16);
+  const f = c => Math.min(255,Math.max(0,Math.round(c*(100+pct)/100)));
+  return '#'+[f(n>>16),f((n>>8)&255),f(n&255)].map(x=>x.toString(16).padStart(2,'0')).join('');
+}
+
+/* ---------------- Pronostics ---------------- */
+function pronoHTML(ev){
+  const st = matchStatus(ev);
+  const started = st!=='upcoming' || Date.now() >= kickoff(ev).getTime();
+  if(!session || !me()){
+    return started ? '' : `<div class="prono"><span class="hint">👤 Créez un compte pour pronostiquer ce match</span></div>`;
+  }
+  const p = (me().pronos||{})[ev.idEvent];
+  if(!started){
+    return `<div class="prono" onclick="event.stopPropagation()">
+      <div class="prono-label">Mon pronostic ${p?'(modifiable jusqu\u2019au coup d\u2019envoi)':''}</div>
+      <div class="prono-row">
+        <button class="pbtn ${p?.pick==='1'?'sel':''}" data-pick="1">1</button>
+        <button class="pbtn ${p?.pick==='N'?'sel':''}" data-pick="N">N</button>
+        <button class="pbtn ${p?.pick==='2'?'sel':''}" data-pick="2">2</button>
+        <input class="pscore" type="number" min="0" max="20" placeholder="–" value="${p?.hs??''}" data-s="h" aria-label="Score domicile">
+        <span style="font-weight:800">-</span>
+        <input class="pscore" type="number" min="0" max="20" placeholder="–" value="${p?.as??''}" data-s="a" aria-label="Score extérieur">
+        <button class="psave" data-ev="${ev.idEvent}">OK</button>
+      </div></div>`;
+  }
+  if(!p) return '';
+  const played = ev.intHomeScore!=null && ev.intAwayScore!=null;
+  let verdict = `<span class="locked">🔒 Verrouillé : ${p.pick||'—'} ${p.hs!=null?`(${p.hs}-${p.as})`:''}</span>`;
+  if(st==='finished' && played){
+    const real = +ev.intHomeScore > +ev.intAwayScore ? '1' : +ev.intHomeScore < +ev.intAwayScore ? '2' : 'N';
+    const okPick = p.pick===real;
+    const okScore = okPick && p.hs!=null && +p.hs===+ev.intHomeScore && +p.as===+ev.intAwayScore;
+    verdict = `<span class="locked">Prono : ${p.pick||'—'} ${p.hs!=null?`(${p.hs}-${p.as})`:''}</span>
+      <span class="result-thumbs">${okScore?'👍🏼👍🏼':okPick?'👍🏼':'✖️'}</span>`;
+  }
+  return `<div class="prono" onclick="event.stopPropagation()"><div class="prono-row">${verdict}</div></div>`;
+}
+function bindPronos(){
+  document.querySelectorAll('.prono .pbtn').forEach(b=>b.addEventListener('click',e=>{
+    e.stopPropagation();
+    b.parentElement.querySelectorAll('.pbtn').forEach(x=>x.classList.remove('sel'));
+    b.classList.add('sel');
+  }));
+  document.querySelectorAll('.prono .psave').forEach(b=>b.addEventListener('click',e=>{
+    e.stopPropagation();
+    const row = b.parentElement;
+    const ev = curEvents.find(x=>x.idEvent===b.dataset.ev);
+    if(!ev) return;
+    if(Date.now() >= kickoff(ev).getTime()){ alert('Trop tard : le match a commencé, pronostic verrouillé.'); loadView(false); return; }
+    const pick = row.querySelector('.pbtn.sel')?.dataset.pick || null;
+    const hs = row.querySelector('[data-s="h"]').value, as = row.querySelector('[data-s="a"]').value;
+    if(!pick && hs==='' ){ alert('Choisissez au moins 1, N ou 2.'); return; }
+    const users = getUsers();
+    users[session].pronos[ev.idEvent] = {pick, hs:hs===''?null:+hs, as:as===''?null:+as, ts:Date.now()};
+    saveUsers(users);
+    b.textContent='✔'; setTimeout(()=>b.textContent='OK',1200);
+  }));
 }
 
 /* ---------------- Rendu calendrier ---------------- */
 function parseGoalDetails(str, side){
-  // format TheSportsDB : "34':Joueur;67':Joueur (pen.);"
   if(!str) return [];
   return str.split(';').map(x=>x.trim()).filter(Boolean).map(g=>{
     const m = g.match(/(\d+)'?\s*:?\s*(.*)/);
-    const min = m? m[1] : '';
     let name = m? m[2] : g;
     const pen = /pen|p\.|\(p\)/i.test(name);
     name = name.replace(/\(?\s*pen(alty)?\.?\s*\)?/ig,'').replace(/\(p\)/ig,'').trim();
-    return {min, name, pen, side};
+    return {min:m?m[1]:'', name, pen, side};
   });
 }
 function parseCards(yStr, rStr, side){
@@ -404,13 +668,13 @@ function parseCards(yStr, rStr, side){
   parse(yStr,'j'); parse(rStr,'r');
   return out;
 }
-
 function renderMatches(events){
+  curEvents = events;
   if(!events.length){
-    $('#content').innerHTML = `<div class="error-box"><h3>Aucun match</h3><p>Aucune rencontre programmée pour cette journée.</p></div>`;
+    $('#content').innerHTML = `<div class="error-box"><h3>Aucun match</h3><p>Aucune rencontre trouvée pour cette journée (la saison ${SEASON} n'est peut-être pas encore publiée à cette journée).</p></div>`;
     return;
   }
-  events.sort((a,b)=> (a.dateEvent+a.strTime).localeCompare(b.dateEvent+b.strTime));
+  events.sort((a,b)=> (a.dateEvent+(a.strTime||'')).localeCompare(b.dateEvent+(b.strTime||'')));
   let html = '<div class="matches">', lastDay='';
   for(const ev of events){
     const day = fmtDate(ev);
@@ -423,43 +687,38 @@ function renderMatches(events){
                : `<span>${fmtTime(ev)}</span>`;
     const wH = played && +hs > +as, wA = played && +as > +hs;
     html += `
-    <article class="match ${st}" data-evid="${ev.idEvent}" tabindex="0" role="button" aria-label="Détail ${esc(ev.strHomeTeam)} ${played?hs+'-'+as:'contre'} ${esc(ev.strAwayTeam)}">
+    <article class="match ${st}" data-evid="${ev.idEvent}" tabindex="0" role="button">
       <div class="m-meta">${meta}<span>J${ev.intRound||'?'}</span></div>
-      <div class="m-row ${wH?'winner':wA?'loser':''}">${crest(ev.strHomeTeam,curLeague.id)}<span class="name">${esc(ev.strHomeTeam)}</span><span class="score">${played?hs:'–'}</span></div>
-      <div class="m-row ${wA?'winner':wH?'loser':''}">${crest(ev.strAwayTeam,curLeague.id)}<span class="name">${esc(ev.strAwayTeam)}</span><span class="score">${played?as:'–'}</span></div>
+      <div class="m-row ${wA?'loser':''}">${crest(ev.strHomeTeam,curLeague.id,28,ev.strHomeTeamBadge)}<span class="name">${esc(ev.strHomeTeam)}</span><span class="score">${played?hs:'–'}</span></div>
+      <div class="m-row ${wH?'loser':''}">${crest(ev.strAwayTeam,curLeague.id,28,ev.strAwayTeamBadge)}<span class="name">${esc(ev.strAwayTeam)}</span><span class="score">${played?as:'–'}</span></div>
       ${ev.strVenue? `<div class="m-venue">🏟️ ${esc(ev.strVenue)}</div>`:''}
       ${(ev.strStatus||'').toUpperCase()==='AET'?'<div class="m-extra">APRÈS PROLONGATION</div>':''}
       ${(ev.strStatus||'').toUpperCase()==='PEN'?'<div class="m-extra">AUX TIRS AU BUT</div>':''}
+      ${oddsHTML(ev)}
+      ${pronoHTML(ev)}
     </article>`;
   }
   html += '</div>';
   $('#content').innerHTML = html;
   document.querySelectorAll('.match').forEach(el=>{
-    el.addEventListener('click',()=>openDetail(el.dataset.evid, events));
-    el.addEventListener('keydown',e=>{ if(e.key==='Enter') openDetail(el.dataset.evid, events); });
+    el.addEventListener('click',()=>openDetail(el.dataset.evid));
+    el.addEventListener('keydown',e=>{ if(e.key==='Enter') openDetail(el.dataset.evid); });
   });
+  bindPronos();
 }
 
 /* ---------------- Modale détail ---------------- */
-async function openDetail(id, events){
-  let ev = events.find(e=>e.idEvent===id);
+async function openDetail(id){
+  let ev = curEvents.find(e=>e.idEvent===id);
   $('#overlay').classList.add('open');
   $('#modal').innerHTML = `<div class="loader"><div class="spinner"></div></div>`;
   try{
     const d = await getJSON(`${API}/lookupevent.php?id=${id}`);
-    if(d.events && d.events[0]) ev = d.events[0];
+    if(d.events?.[0]) ev = d.events[0];
   }catch(e){}
-
   const played = ev.intHomeScore!=null && ev.intAwayScore!=null;
-  const goals = [
-    ...parseGoalDetails(ev.strHomeGoalDetails, 'home'),
-    ...parseGoalDetails(ev.strAwayGoalDetails, 'away'),
-  ].sort((a,b)=>(+a.min||0)-(+b.min||0));
-  const cards = [
-    ...parseCards(ev.strHomeYellowCards, ev.strHomeRedCards, 'home'),
-    ...parseCards(ev.strAwayYellowCards, ev.strAwayRedCards, 'away'),
-  ].sort((a,b)=>(+a.min||0)-(+b.min||0));
-
+  const goals = [...parseGoalDetails(ev.strHomeGoalDetails,'home'),...parseGoalDetails(ev.strAwayGoalDetails,'away')].sort((a,b)=>(+a.min||0)-(+b.min||0));
+  const cards = [...parseCards(ev.strHomeYellowCards,ev.strHomeRedCards,'home'),...parseCards(ev.strAwayYellowCards,ev.strAwayRedCards,'away')].sort((a,b)=>(+a.min||0)-(+b.min||0));
   const sideName = s => s==='home'? ev.strHomeTeam : ev.strAwayTeam;
   const goalsHTML = goals.length
     ? goals.map(g=>`<div class="event-line"><span class="min">${esc(g.min)}'</span>⚽ <strong>${esc(g.name)}</strong>${g.pen?' <span class="tag-pen">PEN.</span>':''}<span class="side">${esc(sideName(g.side))}</span></div>`).join('')
@@ -467,32 +726,29 @@ async function openDetail(id, events){
   const cardsHTML = cards.length
     ? cards.map(c=>`<div class="event-line"><span class="min">${esc(c.min)}'</span><span class="card-ic ${c.type}"></span><strong>${esc(c.name)}</strong><span class="side">${esc(sideName(c.side))}</span></div>`).join('')
     : `<div class="no-data">${played?'Aucun carton signalé (ou détail non communiqué).':'Match non joué.'}</div>`;
-
   $('#modal').innerHTML = `
     <div class="modal-head">
-      <button class="close" aria-label="Fermer" onclick="document.getElementById('overlay').classList.remove('open')">✕</button>
-      <div style="font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:#9DB3D9;font-weight:600">${esc(curLeague.name)} · Journée ${ev.intRound||'?'} · ${fmtDate(ev)}</div>
+      <button class="close" onclick="document.getElementById('overlay').classList.remove('open')">✕</button>
+      <div style="font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.65);font-weight:600">${esc(curLeague.name)} · Journée ${ev.intRound||'?'} · ${fmtDate(ev)}</div>
       <div class="modal-score">
-        <div class="modal-team">${crest(ev.strHomeTeam,curLeague.id).replace('width:28','width:54')}<div class="nm">${esc(ev.strHomeTeam)}</div></div>
+        <div class="modal-team">${crest(ev.strHomeTeam,curLeague.id,54,ev.strHomeTeamBadge)}<div class="nm">${esc(ev.strHomeTeam)}</div></div>
         <div class="modal-mid">
           <div class="sc">${played? ev.intHomeScore+' – '+ev.intAwayScore : fmtTime(ev)}</div>
           <div class="st">${matchStatus(ev)==='live'?'EN DIRECT':matchStatus(ev)==='finished'? 'Terminé · '+durationLabel(ev) : 'À venir'}</div>
         </div>
-        <div class="modal-team">${crest(ev.strAwayTeam,curLeague.id).replace('width:28','width:54')}<div class="nm">${esc(ev.strAwayTeam)}</div></div>
+        <div class="modal-team">${crest(ev.strAwayTeam,curLeague.id,54,ev.strAwayTeamBadge)}<div class="nm">${esc(ev.strAwayTeam)}</div></div>
       </div>
     </div>
     <div class="modal-body">
       <div class="info-line"><span class="lbl">Stade</span>🏟️ ${esc(ev.strVenue||'Non communiqué')}</div>
       <div class="info-line"><span class="lbl">Durée</span>⏱️ ${played? durationLabel(ev) : '90 min (prévu)'}</div>
       ${ev.strResult && (ev.strStatus||'').toUpperCase()==='PEN' ? `<div class="info-line"><span class="lbl">T.A.B.</span>${esc(ev.strResult)}</div>`:''}
-      <div class="section-title">⚽ Buteurs</div>
-      ${goalsHTML}
-      <div class="section-title">🟨🟥 Cartons</div>
-      ${cardsHTML}
+      <div class="section-title">⚽ Buteurs</div>${goalsHTML}
+      <div class="section-title">🟨🟥 Cartons</div>${cardsHTML}
     </div>`;
 }
 $('#overlay').addEventListener('click', e=>{ if(e.target.id==='overlay') $('#overlay').classList.remove('open'); });
-document.addEventListener('keydown', e=>{ if(e.key==='Escape') $('#overlay').classList.remove('open'); });
+document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ $('#overlay').classList.remove('open'); $('#acc-overlay').classList.remove('open'); } });
 
 /* ---------------- Classement ---------------- */
 async function renderStandings(){
@@ -501,25 +757,17 @@ async function renderStandings(){
     const d = await getJSON(`${API}/lookuptable.php?l=${curLeague.id}&s=${SEASON}`);
     const rows = d.table||[];
     if(!rows.length) throw new Error('vide');
-    let html = `<table class="standings"><thead><tr>
-      <th>#</th><th>Équipe</th><th>J</th><th>G</th><th>N</th><th>P</th><th>BP</th><th>BC</th><th>Diff</th><th>Pts</th>
-    </tr></thead><tbody>`;
+    let html = `<table class="standings"><thead><tr><th>#</th><th>Équipe</th><th>J</th><th>G</th><th>N</th><th>P</th><th>BP</th><th>BC</th><th>Diff</th><th>Pts</th></tr></thead><tbody>`;
     rows.forEach(r=>{
-      const pos = +r.intRank;
-      const cls = pos<=4 ? 'ucl' : pos > rows.length-3 ? 'releg' : '';
-      const badge = r.strBadge ? `<img src="${r.strBadge}/tiny" alt="" loading="lazy">` : crest(r.strTeam, curLeague.id);
-      html += `<tr class="${cls}">
-        <td class="pos">${pos}</td>
-        <td class="team">${badge}${esc(r.strTeam)}</td>
+      const badge = r.strBadge ? `<img src="${r.strBadge}" alt="" loading="lazy" referrerpolicy="no-referrer">` : crest(r.strTeam, curLeague.id, 22);
+      html += `<tr><td class="pos">${r.intRank}</td><td class="team">${badge}${esc(r.strTeam)}</td>
         <td>${r.intPlayed}</td><td>${r.intWin}</td><td>${r.intDraw}</td><td>${r.intLoss}</td>
         <td>${r.intGoalsFor}</td><td>${r.intGoalsAgainst}</td>
-        <td>${r.intGoalDifference>0?'+':''}${r.intGoalDifference}</td>
-        <td class="pts">${r.intPoints}</td></tr>`;
+        <td>${r.intGoalDifference>0?'+':''}${r.intGoalDifference}</td><td class="pts">${r.intPoints}</td></tr>`;
     });
-    html += '</tbody></table>';
-    $('#content').innerHTML = html;
+    $('#content').innerHTML = html + '</tbody></table>';
   }catch(e){
-    showError('Classement indisponible', 'Le classement de cette saison n\u2019est pas encore publié par l\u2019API. Réessayez plus tard.');
+    $('#content').innerHTML = `<div class="error-box"><h3>Classement indisponible</h3><p>Le classement de cette saison n'est pas encore publié par l'API.</p><button onclick="loadView()">Réessayer</button></div>`;
   }
 }
 
@@ -529,32 +777,27 @@ async function loadView(showLoader=true){
   $('#round-nav').style.visibility = curView==='cal' ? 'visible' : 'hidden';
   try{
     await loadTeams(curLeague.id);
+    applyFavTheme();
     if(curView==='cls'){ await renderStandings(); }
     else{
       if(curRound==null) curRound = await detectCurrentRound(curLeague.id);
-      $('#round-label').textContent = `Journée ${curRound}`;
-      $('#r-prev').disabled = curRound<=1;
-      $('#r-next').disabled = curRound>=curLeague.rounds;
+      buildRoundSelect();
+      await loadOdds(curLeague.id);
       const d = await getJSON(`${API}/eventsround.php?id=${curLeague.id}&r=${curRound}&s=${SEASON}`);
       renderMatches(d.events||[]);
     }
-    $('#status').innerHTML = `<span class="dot-live"></span> Dernière mise à jour : ${new Date().toLocaleTimeString('fr-FR')}`;
+    $('#status').innerHTML = `<span class="dot-live"></span> Dernière mise à jour : ${new Date().toLocaleTimeString('fr-FR')} · ${totalRounds(curLeague.id)} journées cette saison`;
   }catch(e){
-    showError('Connexion impossible',
-      'L\u2019application n\u2019a pas pu joindre l\u2019API de données football. '+
-      'Si vous consultez ce fichier dans l\u2019aperçu Claude, les requêtes externes peuvent être bloquées : '+
-      'téléchargez le fichier et ouvrez-le directement dans Safari ou Chrome pour un fonctionnement complet.');
+    $('#content').innerHTML = `<div class="error-box"><h3>Connexion impossible</h3>
+      <p>L'application n'a pas pu joindre l'API de données. Si vous êtes dans l'aperçu Claude, les requêtes externes peuvent être bloquées : téléchargez le fichier et ouvrez-le dans Safari ou Chrome.</p>
+      <button onclick="loadView()">Réessayer</button></div>`;
   }
-}
-function showError(title, msg){
-  $('#content').innerHTML = `<div class="error-box"><h3>${esc(title)}</h3><p>${msg}</p><button onclick="loadView()">Réessayer</button></div>`;
 }
 
 /* ---------------- Navigation ---------------- */
 function buildTabs(){
   $('#league-tabs').innerHTML = LEAGUES.map(l=>
-    `<button class="league-tab ${l.id===curLeague.id?'active':''}" data-id="${l.id}">${l.country} ${l.name}</button>`
-  ).join('');
+    `<button class="league-tab ${l.id===curLeague.id?'active':''}" data-id="${l.id}">${l.country} ${l.name}</button>`).join('');
   document.querySelectorAll('.league-tab').forEach(b=>b.addEventListener('click',()=>{
     curLeague = LEAGUES.find(l=>l.id===b.dataset.id);
     curRound = null;
@@ -564,15 +807,24 @@ function buildTabs(){
 $('#v-cal').addEventListener('click',()=>{ curView='cal'; $('#v-cal').classList.add('active'); $('#v-cls').classList.remove('active'); loadView(); });
 $('#v-cls').addEventListener('click',()=>{ curView='cls'; $('#v-cls').classList.add('active'); $('#v-cal').classList.remove('active'); loadView(); });
 $('#r-prev').addEventListener('click',()=>{ if(curRound>1){curRound--; loadView();} });
-$('#r-next').addEventListener('click',()=>{ if(curRound<curLeague.rounds){curRound++; loadView();} });
+$('#r-next').addEventListener('click',()=>{ if(curRound<totalRounds(curLeague.id)){curRound++; loadView();} });
+$('#round-select').addEventListener('change', e=>{ curRound = +e.target.value; loadView(); });
 
-/* ---------------- Rafraîchissement (60 s + bouton) ---------------- */
+/* ---------------- Mode clair / sombre ---------------- */
+function setTheme(t){
+  document.documentElement.dataset.theme = t;
+  $('#btn-theme').textContent = t==='dark' ? '☀️' : '🌙';
+  store.set('t5_theme', t);
+}
+$('#btn-theme').addEventListener('click',()=> setTheme(document.documentElement.dataset.theme==='dark'?'light':'dark'));
+setTheme(store.get('t5_theme') || (matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'));
+
+/* ---------------- Rafraîchissement ---------------- */
 function resetCountdown(){ countdown = REFRESH_EVERY; $('#countdown').textContent = countdown+' s'; }
 function startTimer(){
   if(timerId) clearInterval(timerId);
   timerId = setInterval(()=>{
-    countdown--;
-    $('#countdown').textContent = countdown+' s';
+    countdown--; $('#countdown').textContent = countdown+' s';
     if(countdown<=0){ resetCountdown(); loadView(false); }
   },1000);
 }
@@ -582,6 +834,7 @@ $('#btn-refresh').addEventListener('click',()=>{
 });
 
 /* ---------------- Démarrage ---------------- */
+if(session && getUsers()[session]) $('#btn-account').classList.add('logged'); else session=null;
 buildTabs();
 loadView();
 startTimer();
